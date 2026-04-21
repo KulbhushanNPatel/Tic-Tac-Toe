@@ -3,12 +3,18 @@ import java.util.Scanner;
 
 public class TicTacToe {
 
-    // UC3: Method to get user input
+    // UC3
     public static int getUserInput() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter a slot number (1-9): ");
-        int slot = scanner.nextInt();
-        return slot;
+        return scanner.nextInt();
+    }
+
+    // UC4: Convert slot → row, col
+    public static int[] getRowCol(int slot) {
+        int row = (slot - 1) / 3;
+        int col = (slot - 1) % 3;
+        return new int[]{row, col};
     }
 
     public static void main(String[] args) {
@@ -31,27 +37,21 @@ public class TicTacToe {
             System.out.println();
         }
 
-        // UC2: Random toss
+        // UC2: Toss
         Random random = new Random();
         int toss = random.nextInt(2);
 
-        char player1Symbol, player2Symbol;
-        int currentPlayer;
+        int currentPlayer = (toss == 0) ? 1 : 2;
+        System.out.println("Player " + currentPlayer + " starts");
 
-        if (toss == 0) {
-            player1Symbol = 'X';
-            player2Symbol = 'O';
-            currentPlayer = 1;
-            System.out.println("Player 1 starts and is 'X'");
-        } else {
-            player1Symbol = 'O';
-            player2Symbol = 'X';
-            currentPlayer = 2;
-            System.out.println("Player 2 starts and is 'X'");
-        }
-
-        // UC3: Take input
+        // UC3
         int slot = getUserInput();
-        System.out.println("You selected slot: " + slot);
+
+        // UC4
+        int[] position = getRowCol(slot);
+        int row = position[0];
+        int col = position[1];
+
+        System.out.println("Mapped to -> Row: " + row + ", Col: " + col);
     }
 }
