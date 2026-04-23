@@ -10,11 +10,24 @@ public class TicTacToe {
         return scanner.nextInt();
     }
 
-    // UC4: Convert slot → row, col
+    // UC4
     public static int[] getRowCol(int slot) {
         int row = (slot - 1) / 3;
         int col = (slot - 1) % 3;
         return new int[]{row, col};
+    }
+
+    // UC5: Validate move
+    public static boolean isValidMove(char[][] board, int row, int col) {
+        // Boundary check
+        if (row < 0 || row > 2 || col < 0 || col > 2) {
+            return false;
+        }
+        // Cell empty check
+        if (board[row][col] != '-') {
+            return false;
+        }
+        return true;
     }
 
     public static void main(String[] args) {
@@ -40,18 +53,25 @@ public class TicTacToe {
         // UC2: Toss
         Random random = new Random();
         int toss = random.nextInt(2);
-
         int currentPlayer = (toss == 0) ? 1 : 2;
-        System.out.println("Player " + currentPlayer + " starts");
+        char currentSymbol = 'X'; // starter gets X
+
+        System.out.println("Player " + currentPlayer + " starts as '" + currentSymbol + "'");
 
         // UC3
         int slot = getUserInput();
 
         // UC4
-        int[] position = getRowCol(slot);
-        int row = position[0];
-        int col = position[1];
+        int[] pos = getRowCol(slot);
+        int row = pos[0];
+        int col = pos[1];
 
-        System.out.println("Mapped to -> Row: " + row + ", Col: " + col);
+        // UC5
+        if (isValidMove(board, row, col)) {
+            System.out.println("Valid move");
+            // (placement happens in next UC)
+        } else {
+            System.out.println("Invalid move");
+        }
     }
 }
