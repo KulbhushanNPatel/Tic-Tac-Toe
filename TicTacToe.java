@@ -17,17 +17,33 @@ public class TicTacToe {
         return new int[]{row, col};
     }
 
-    // UC5: Validate move
+    // UC5
     public static boolean isValidMove(char[][] board, int row, int col) {
-        // Boundary check
+
         if (row < 0 || row > 2 || col < 0 || col > 2) {
             return false;
         }
-        // Cell empty check
+
         if (board[row][col] != '-') {
             return false;
         }
+
         return true;
+    }
+
+    // UC6: Update board
+    public static void updateBoard(char[][] board, int row, int col, char symbol) {
+        board[row][col] = symbol;
+    }
+
+    // Print board method
+    public static void printBoard(char[][] board) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(board[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 
     public static void main(String[] args) {
@@ -41,20 +57,15 @@ public class TicTacToe {
             }
         }
 
-        // Print board
         System.out.println("Initial Board:");
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print(board[i][j] + " ");
-            }
-            System.out.println();
-        }
+        printBoard(board);
 
         // UC2: Toss
         Random random = new Random();
         int toss = random.nextInt(2);
+
         int currentPlayer = (toss == 0) ? 1 : 2;
-        char currentSymbol = 'X'; // starter gets X
+        char currentSymbol = 'X';
 
         System.out.println("Player " + currentPlayer + " starts as '" + currentSymbol + "'");
 
@@ -68,10 +79,15 @@ public class TicTacToe {
 
         // UC5
         if (isValidMove(board, row, col)) {
-            System.out.println("Valid move");
-            // (placement happens in next UC)
+
+            // UC6
+            updateBoard(board, row, col, currentSymbol);
+
+            System.out.println("Updated Board:");
+            printBoard(board);
+
         } else {
-            System.out.println("Invalid move");
+            System.out.println("Invalid move ");
         }
     }
 }
