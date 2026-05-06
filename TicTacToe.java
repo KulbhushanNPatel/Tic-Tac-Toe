@@ -71,7 +71,7 @@ public class TicTacToe {
         }
     }
 
-    // Check if board is full
+    // UC10: Check draw
     public static boolean isBoardFull(char[][] board) {
 
         for (int i = 0; i < 3; i++) {
@@ -171,13 +171,16 @@ public class TicTacToe {
                     System.out.println("Human Move:");
                     printBoard(board);
 
-                    // Check human win
+                    // Check win
                     if (checkWin(board, humanSymbol)) {
 
                         System.out.println("Human Player Wins!");
                         gameRunning = false;
 
-                    } else if (isBoardFull(board)) {
+                    }
+
+                    // Check draw
+                    else if (isBoardFull(board)) {
 
                         System.out.println("Game Draw!");
                         gameRunning = false;
@@ -189,7 +192,7 @@ public class TicTacToe {
 
                 } else {
 
-                    System.out.println("Invalid move ");
+                    System.out.println("Invalid move ❌");
                 }
 
             } else {
@@ -199,13 +202,16 @@ public class TicTacToe {
                 System.out.println("Computer Move:");
                 printBoard(board);
 
-                // Check computer win
+                // Check win
                 if (checkWin(board, computerSymbol)) {
 
                     System.out.println("Computer Wins!");
                     gameRunning = false;
 
-                } else if (isBoardFull(board)) {
+                }
+
+                // Check draw
+                else if (isBoardFull(board)) {
 
                     System.out.println("Game Draw!");
                     gameRunning = false;
