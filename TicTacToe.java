@@ -5,20 +5,20 @@ public class TicTacToe {
 
     static Scanner scanner = new Scanner(System.in);
 
-    // UC3
+    // Get user input
     public static int getUserInput() {
         System.out.print("Enter a slot number (1-9): ");
         return scanner.nextInt();
     }
 
-    // UC4
+    // Convert slot to row and column
     public static int[] getRowCol(int slot) {
         int row = (slot - 1) / 3;
         int col = (slot - 1) % 3;
         return new int[]{row, col};
     }
 
-    // UC5
+    // Validate move
     public static boolean isValidMove(char[][] board, int row, int col) {
 
         if (row < 0 || row > 2 || col < 0 || col > 2) {
@@ -28,7 +28,7 @@ public class TicTacToe {
         return board[row][col] == '-';
     }
 
-    // UC6
+    // Update board
     public static void updateBoard(char[][] board, int row, int col, char symbol) {
         board[row][col] = symbol;
     }
@@ -46,7 +46,7 @@ public class TicTacToe {
         }
     }
 
-    // UC7
+    // Computer move
     public static void computerMove(char[][] board, char computerSymbol) {
 
         Random random = new Random();
@@ -71,7 +71,7 @@ public class TicTacToe {
         }
     }
 
-    // UC8: Check draw
+    // Check if board is full
     public static boolean isBoardFull(char[][] board) {
 
         for (int i = 0; i < 3; i++) {
@@ -85,6 +85,50 @@ public class TicTacToe {
         }
 
         return true;
+    }
+
+    // Check win
+    public static boolean checkWin(char[][] board, char symbol) {
+
+        // Check rows
+        for (int i = 0; i < 3; i++) {
+
+            if (board[i][0] == symbol &&
+                    board[i][1] == symbol &&
+                    board[i][2] == symbol) {
+
+                return true;
+            }
+        }
+
+        // Check columns
+        for (int j = 0; j < 3; j++) {
+
+            if (board[0][j] == symbol &&
+                    board[1][j] == symbol &&
+                    board[2][j] == symbol) {
+
+                return true;
+            }
+        }
+
+        // Main diagonal
+        if (board[0][0] == symbol &&
+                board[1][1] == symbol &&
+                board[2][2] == symbol) {
+
+            return true;
+        }
+
+        // Opposite diagonal
+        if (board[0][2] == symbol &&
+                board[1][1] == symbol &&
+                board[2][0] == symbol) {
+
+            return true;
+        }
+
+        return false;
     }
 
     public static void main(String[] args) {
@@ -108,7 +152,7 @@ public class TicTacToe {
         System.out.println("Initial Board:");
         printBoard(board);
 
-        // UC8 Game Loop
+        // Game loop
         while (gameRunning) {
 
             if (humanTurn) {
@@ -127,7 +171,21 @@ public class TicTacToe {
                     System.out.println("Human Move:");
                     printBoard(board);
 
-                    humanTurn = false;
+                    // Check human win
+                    if (checkWin(board, humanSymbol)) {
+
+                        System.out.println("Human Player Wins!");
+                        gameRunning = false;
+
+                    } else if (isBoardFull(board)) {
+
+                        System.out.println("Game Draw!");
+                        gameRunning = false;
+
+                    } else {
+
+                        humanTurn = false;
+                    }
 
                 } else {
 
@@ -141,15 +199,21 @@ public class TicTacToe {
                 System.out.println("Computer Move:");
                 printBoard(board);
 
-                humanTurn = true;
-            }
+                // Check computer win
+                if (checkWin(board, computerSymbol)) {
 
-            // Stop if board full
-            if (isBoardFull(board)) {
+                    System.out.println("Computer Wins!");
+                    gameRunning = false;
 
-                System.out.println("Game Draw!");
+                } else if (isBoardFull(board)) {
 
-                gameRunning = false;
+                    System.out.println("Game Draw!");
+                    gameRunning = false;
+
+                } else {
+
+                    humanTurn = true;
+                }
             }
         }
     }
