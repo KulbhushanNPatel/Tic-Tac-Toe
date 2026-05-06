@@ -31,12 +31,12 @@ public class TicTacToe {
         return true;
     }
 
-    // UC6: Update board
+    // UC6
     public static void updateBoard(char[][] board, int row, int col, char symbol) {
         board[row][col] = symbol;
     }
 
-    // Print board method
+    // Print board
     public static void printBoard(char[][] board) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -46,11 +46,34 @@ public class TicTacToe {
         }
     }
 
+    // UC7: Computer move
+    public static void computerMove(char[][] board, char computerSymbol) {
+
+        Random random = new Random();
+
+        while (true) {
+
+            int slot = random.nextInt(9) + 1;
+
+            int[] pos = getRowCol(slot);
+            int row = pos[0];
+            int col = pos[1];
+
+            if (isValidMove(board, row, col)) {
+
+                updateBoard(board, row, col, computerSymbol);
+
+                System.out.println("Computer selected slot: " + slot);
+                break;
+            }
+        }
+    }
+
     public static void main(String[] args) {
 
         char[][] board = new char[3][3];
 
-        // UC1: Initialize board
+        // UC1 Initialize board
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 board[i][j] = '-';
@@ -60,34 +83,39 @@ public class TicTacToe {
         System.out.println("Initial Board:");
         printBoard(board);
 
-        // UC2: Toss
+        // UC2 Toss
         Random random = new Random();
         int toss = random.nextInt(2);
 
         int currentPlayer = (toss == 0) ? 1 : 2;
-        char currentSymbol = 'X';
 
-        System.out.println("Player " + currentPlayer + " starts as '" + currentSymbol + "'");
+        char humanSymbol = 'X';
+        char computerSymbol = 'O';
 
-        // UC3
+        System.out.println("Player " + currentPlayer + " starts");
+
+        // Human move
         int slot = getUserInput();
 
-        // UC4
         int[] pos = getRowCol(slot);
         int row = pos[0];
         int col = pos[1];
 
-        // UC5
         if (isValidMove(board, row, col)) {
 
-            // UC6
-            updateBoard(board, row, col, currentSymbol);
+            updateBoard(board, row, col, humanSymbol);
 
-            System.out.println("Updated Board:");
+            System.out.println("Board after Human move:");
             printBoard(board);
 
         } else {
             System.out.println("Invalid move ");
         }
+
+        // UC7 Computer move
+        computerMove(board, computerSymbol);
+
+        System.out.println("Board after Computer move:");
+        printBoard(board);
     }
 }
